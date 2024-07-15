@@ -1,2 +1,1 @@
-# linlin1195.github.io
-个人博客
+- # linlin1195 的个人博客
