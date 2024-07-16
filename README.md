@@ -1,3 +1,3 @@
 - # linlin1195 的个人博客
 - ## 一个来自蒟蒻的博客
-- # 查看目录（index.md)[网址版](https://github.com/linlin1195/linlin1195.github.io/blob/main/index.md)
+- # 查看目录（index.html)[网址版](https://github.com/linlin1195/linlin1195.github.io/blob/main/index.html)
