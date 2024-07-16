@@ -1,7 +1,5 @@
 /**
- * <a href="https://oj.17ac.cn/contests/1131/problems/1?group=2">
- *   2. 素数回文数
- * </a>
+ * <a href="https://oj.17ac.cn/problems/1116">素数回文数</a>
  */
 
 #include <iostream>
