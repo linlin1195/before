@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!-- 1116 素数回文数 -->
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <title>1116 素数回文数 题解 | linlin1195.github.io</title>
+    <link rel="shortcut icon" href="https://oj.17ac.cn/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.font.im/css?family=Fira+Mono" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
+      });
+    </script>
+    <script>
+      function copy(value) {
+        const text = document.createElement('textarea');
+        text.value = value;
+        text.setAttribute('readonly', 'readonly')
+        document.body.appendChild(text);
+        text.select();
+        if (document.execCommand('copy')) {
+          document.execCommand('copy');
+          alert('复制成功!');
+	} else {
+          alert('复制失败...(TvT)...你的浏览器不支持...');
+	}
+        document.body.removeChild(text);
+      }
+
+      function copyPrimeOne() {
+        copy('bool is_prime(int x) {\n    if (x < 2) return false;\n    for (int i = 2; i < x; i++) \n        if (x % i == 0) \n            return false;\n    return true;\n}');
+      }
+
+      function copyPrimeTwo() {
+        copy('bool is_prime(int x) {\n    if (x < 2) return false;\n    for (int i = 2; i * i <= x; i++) \n        if (x % i == 0) \n            return false;\n    return true;\n}');
+      }
+    </script>
+    <style>
+      body {
+        font-family: 'Microsoft YaHei';
+      }
+
+      body {
+        font-family: 'Consolas', monospace;
+      }
+
+      code {
+        font-family: 'Fira Mono', monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <h1><a href="https://oj.17ac.cn/problems/1116">1116. 素数回文数</a></h1>
+    <h4>题目描述 Problem Description</h4>
+    <p>
+      如果一个数从左边读和右边读都是同一个数，就称为回文数，例如686就是一个回文数。编程求10到1000内所有的既是回文数同时又是素数的自然数。
+    </p>
+    <h4>输入描述 Input Description</h4>
+    <p>
+      无
+    </p>
+    <h4>输出描述 Output Description</h4>
+    <p>
+      若干个数 每行一个
+    </p>
+    <hr>
+    <p>这道题是个<del>十分简单的</del>枚举题，暴力判素也不会TLE。</p>
+    <p>先考虑普通做法。</p>
+    <p>想法是: 从10到1000，循环枚举每一个数，然后判断它<strong>是否是素数</strong>并且<strong>回文</strong>。如果是，输出。</p>
+    <hr>
+    <h4>如何判素?</h4>
+    <p>有一个最暴力的想法，从2一直枚举到<code>x-1</code>，判断这个数是否是<code>x</code>的因子。如果是，那么<code>x</code>不是质数。如果枚举完了都没有<code>return</code>出去，那么可以确定<code>x</code>没有其他因子，是素数。另外还有一个需要注意的点，当<code>x</code>小于2时，<code>x</code>也不为质数。示范代码如下: </p>
+    <pre><code lang="cpp"> 1  bool is_prime(int x) {
+ 2      if (x < 2) return false;
+ 3      for (int i = 2; i &lt; x; i++)
+ 4          if (x % i == 0)
+ 5              return false;
+ 6      return true;
+ 7  }
+    </code></pre>
+    <button onclick="copyPrimeOne()">点我复制!</button>
+    <p>时间复杂度是 $O(n)$ 的</p>
+    <p><strong>能不能更快?</strong></p>
+    <p>答案是肯定的。素数是因子只有1和本身，如果<code>x</code>不是素数，则还有其他因子，其中的因子，假如为<code>a</code>，<code>b</code>.其中必有一个大于 $\sqrt{x}$ ，一个小于  $\sqrt{x}$ 。所以必有一个小于或等于其平方根的因数，那么验证素数时就只需要枚举2到 $\sqrt{x}$ 就可以了。即一个合数一定含有小于它平方根的质因子。示范代码如下: </p>
+    <pre><code lang="cpp"> 1  bool is_prime(int x) {
+ 2      if (x < 2) return false;
+ 3      for (int i = 2; i * i &lt;= x; i++)
+ 4          if (x % i == 0)
+ 5              return false;
+ 6      return true;
+ 7  }
+    </code></pre>
+    <button onclick="copyPrimeTwo()">点我复制!</button>
+    <p>时间复杂度 $O(\sqrt{n})$ </p>
+    <hr>
+    <h4>如何判回文?</h4>
+    <p>qwq, 懒得写了</p>
+  </body>
+</html>
