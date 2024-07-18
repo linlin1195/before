@@ -6,6 +6,7 @@
     <title>1116 素数回文数 题解 | linlin1195.github.io</title>
     <link rel="shortcut icon" href="https://oj.17ac.cn/favicon.ico" type="image/x-icon">
     <link href="https://fonts.font.im/css?family=Fira+Mono" rel="stylesheet">
+    <link href="https://fonts.font.im/css?family=Great+Vibes" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
@@ -37,8 +38,33 @@
       function copyPrimeTwo() {
         copy('bool is_prime(int x) {\n    if (x < 2) return false;\n    for (int i = 2; i * i <= x; i++) \n        if (x % i == 0) \n            return false;\n    return true;\n}');
       }
+
+      function copyRevOne() {
+        copy('int reverse(int x) {\n    string tostr = to_string(x);\n    reverse(tostr.begin(), tostr.end());\n    return stoi(tostr);\n}');
+      }
+
+      function copyViole() {
+        copy('#include <algorithm>\n#include <iostream>\n#include <string>\n\nusing namespace std;\n\nbool is_prime(int x) {\n    if (x < 2) return false;\n    for (int i = 2; i * i <= x; i++) \n        if (x % i == 0) \n            return false;\n    return true;\n}\n\nint reverse(int x) {\n    string tostr = to_string(x);\n    reverse(tostr.begin(), tostr.end());\n    return stoi(tostr);\n}\n\nint main() {\n    for (int i = 10; i <= 1000; i++)\n        if (is_prime(i) && reverse(i) == i) \n            cout << i << \'\\n\';\n    return 0;\n}');
+      }
+
+      function copyEuler() {
+        copy('void euler_sieve(int n) {\n    not_prime[0] = not_prime[1] = true;\n    for (int i = 2; i <= n; i++) {\n        if (!not_prime[i]) primes[primes_num++] = i;\n        for (int j = 0; j < primes_num && i * primes[j] <= n; j++) {\n            not_prime[i * primes[j]] = true;\n            if (i % primes[j] == 0) break;\n        }\n    }\n}');
+      }
+
+      function copyRevTwo() {
+        copy('int reverse(int x) {\n    if (x < 100) return (x / 10) + (x % 10) * 10;\n    if (x < 1000) return (x / 100) + (x / 10 % 10) * 10 + (x % 10) * 100;\n    return 1;\n}');
+      }
+      
+      function copyCompl() {
+        copy('#include <iostream>\n\nusing namespace std;\n\nbool not_prime[1001];\nint primes[991];\nint primes_num = 0;\n\nvoid euler_sieve(int n) {\n    not_prime[0] = not_prime[1] = true;\n    for (int i = 2; i < n; i++) {\n        if (!not_prime[i]) primes[primes_num++] = i;\nfor (int j = 0; j < primes_num && i * primes[j] <= n; j++) {\n            not_prime[i * primes[j]] = true;\nif (i % primes[j] == 0) break;\n        }\n    }\n}\n\nint reverse(int x) {\n    if (x < 100) return (x / 10) + (x % 10) * 10;\n    if (x < 1000) return (x / 100) + (x / 10 % 10) * 10 + (x % 10) * 100;\n    return 1;\n}\n\nint main() {\n    euler_sieve(1000);\n    for (int i = 0; i < primes_num; i++)\n        if (primes[i] > 9 && primes[i] == reverse(primes[i]))\n            cout << primes[i] << \'\\n\';\n    return 0;\n}');
+      }
     </script>
     <style>
+      * {
+        background: #2b2b2b;
+	color: #aab4c8
+      }
+
       body {
         font-family: 'Microsoft YaHei';
       }
@@ -49,6 +75,13 @@
 
       code {
         font-family: 'Fira Mono', monospace;
+      }
+
+      .ending {
+        background: linear-gradient(120deg, #66ccff 0%, #f8f8ff 100%);
+	-webkit-background-clip: text;
+	color: transparent;
+        font-family: 'Great Vibes', cursive;
       }
     </style>
   </head>
@@ -74,7 +107,7 @@
     <h4>如何判素?</h4>
     <p>有一个最暴力的想法，从2一直枚举到<code>x-1</code>，判断这个数是否是<code>x</code>的因子。如果是，那么<code>x</code>不是质数。如果枚举完了都没有<code>return</code>出去，那么可以确定<code>x</code>没有其他因子，是素数。另外还有一个需要注意的点，当<code>x</code>小于2时，<code>x</code>也不为质数。示范代码如下: </p>
     <pre><code lang="cpp"> 1  bool is_prime(int x) {
- 2      if (x < 2) return false;
+ 2      if (x &lt; 2) return false;
  3      for (int i = 2; i &lt; x; i++)
  4          if (x % i == 0)
  5              return false;
@@ -86,7 +119,7 @@
     <p><strong>能不能更快?</strong></p>
     <p>答案是肯定的。素数是因子只有1和本身，如果<code>x</code>不是素数，则还有其他因子，其中的因子，假如为<code>a</code>，<code>b</code>.其中必有一个大于 $\sqrt{x}$ ，一个小于  $\sqrt{x}$ 。所以必有一个小于或等于其平方根的因数，那么验证素数时就只需要枚举2到 $\sqrt{x}$ 就可以了。即一个合数一定含有小于它平方根的质因子。示范代码如下: </p>
     <pre><code lang="cpp"> 1  bool is_prime(int x) {
- 2      if (x < 2) return false;
+ 2      if (x &lt; 2) return false;
  3      for (int i = 2; i * i &lt;= x; i++)
  4          if (x % i == 0)
  5              return false;
@@ -94,9 +127,129 @@
  7  }
     </code></pre>
     <button onclick="copyPrimeTwo()">点我复制!</button>
-    <p>时间复杂度 $O(\sqrt{n})$ </p>
+    <p>时间复杂度 $O(\sqrt{n})$ ，大大滴优秀啊(赞赏)</p>
     <hr>
     <h4>如何判回文?</h4>
-    <p>qwq, 懒得写了</p>
+    <p>我们只需要将数字倒序，然后再看是否和原数相等就可以了</p>
+    <p>如何把数字倒序?</p>
+    <p>最简单的想法是: 把数字转<code>string</code>然后再<code>reverse</code>。<del>(甩锅给STL</del></p>
+    <p>接下来又是欢乐的代码环节了 <del>(STL: ******</del></p>
+    <pre><code lang="cpp"> 1  int reverse(int x) {
+ 2      string tostr = to_string(x);
+ 3      reverse(tostr.begin(), tostr.end());
+ 4      return stoi(tostr);
+ 5  }
+    </code></pre>
+    <button onclick="copyRevOne()">点我复制!</button>
+    <hr>
+    相信有了这些，你应该能A了这道题<del>，祝你们成功[滑稽]</del>
+    但还是在此贴出暴力A码:
+    <pre><code lang="cpp"> 1  #include &lt;algorithm&gt;
+ 2  #include &lt;iostream&gt;
+ 3  #include &lt;string&gt;
+ 4  
+ 5  using namespace std;
+ 6  
+ 7  bool is_prime(int x) {
+ 8      if (x &lt; 2) return false;
+ 9      for (int i = 2; i * i &lt;= x; i++)
+10          if (x % i == 0)
+11              return false;
+12      return true;
+13  }
+14  
+15  int reverse(int x) {
+16      string tostr = to_string(x);
+17      reverse(tostr.begin(), tostr.end());
+18      return stoi(tostr);
+19  }
+20  
+21  int main() {
+22      for (int i = 10; i &lt;= 1000; i++)
+23          if (is_prime(i) &amp;&amp; reverse(i) == i)
+24              cout &lt;&lt; i &lt;&lt; '\n';
+25      return 0;
+26  }
+    </code></pre>
+    <button onclick="copyViole()">点我AC!</button>
+    <div align="center"><hr>一条华丽的分界线<hr></div>
+    <p> $O(n \sqrt{n}+n \log_{10}{n})$ 的复杂度用来AC这道题的确绰绰有余。但是我们还是要想: 还能更快吗?</p>
+    <p>没错，还能更快!</p>
+    <strong>前置芝士 欧拉筛</strong>
+    <p>
+      欧拉筛(Euler sieve)，又名线性筛法，因其线性的复杂度而得名，用于筛出1~n之间的所有质数。
+      它在埃氏筛法上做了优化，把埃氏筛法 $O(n \log{\log_2{n}})$ 的近似 $O(n)$ 的复杂度彻底优化为 $O(n)$ 。原理是让每个数只被它的最小质因子筛一次，而不是像埃氏筛法一样用质数筛一个合数多次。
+    </p>
+    <a href="https://blog.csdn.net/GD_ONE/article/details/104660294">获取详细信息</a>
+    <br>
+    <p>在这里给出示例代码: </p>
+    <pre><code lang="cpp"> 1  void euler_sieve(int n) {
+ 2      not_prime[0] = not_prime[1] = true;
+ 3      for (int i = 2; i &lt;= n; i++) {
+ 4          if (!not_prime[i]) primes[primes_num++] = i;
+ 5          for (int j = 0; j &lt; primes_num &amp;&amp; i * primes[j] &lt;= n; j++) {
+ 6              not_prime[i * primes[j]] = true;
+ 7              if (i % primes[j] == 0) break;
+ 8          }
+ 9      }
+10  }
+    </code></pre>
+    <button onclick="copyEuler()">点我复制!</button>
+    <br><br><br>
+    <strong>* 你身上的狗太多了。 * 狗吸收了芝士。 * 这使你回到了这篇题解。</strong>
+    <br><br><br>
+    <p>现在，我们就很自然地联想到: 这题可以用欧拉筛来做!</p>
+    <p>但是这有什么用呢? 不就是把 $O(n \sqrt{n})$ 这一段优化掉了吗? </p>
+    <p>注意到不能让我们把复杂度化为 $O(n)$ 的罪魁祸首是: <code>reverse</code>函数!</p>
+    <p>所以现在重点放在<code>reverse</code>上。</p>
+    <hr>
+    <strong><code>reverse</code>的优化</strong>
+    <p>我们知道，传进<code>reverse</code>函数的值在[10, 1000]之间，只可能是[2, 4]位数。</p>
+    <p>所以我们可以特判<code>x</code>的位数，分别返回值。</p>
+    <pre><code lang="cpp"> 1  int reverse(int x) {
+ 2      if (x &lt; 100) return (x / 10) + (x % 10) * 10;
+ 3      if (x &lt; 1000) return (x / 100) + (x / 10 % 10) * 10 + (x % 10) * 100;
+ 4      return 1;
+ 5  }
+    </code></pre>
+    <button onclick="copyRevTwo()">点我复制!</button>
+    <hr>
+    <strong>接下来，让我们把所有元素结合到一起!</strong>
+    <pre><code lang="cpp"> 1  #include &lt;iostream&gt;
+ 2  
+ 3  using namespace std;
+ 4  
+ 5  bool not_prime[1001];
+ 6  int primes[991];
+ 7  int primes_num = 0;
+ 8  
+ 9  void euler_sieve(int n) {
+10      not_prime[0] = not_prime[1] = true;
+11      for (int i = 2; i &lt; n; i++) {
+12          if (!not_prime[i]) primes[primes_num++] = i;
+13          for (int j = 0; j &lt; primes_num &amp;&amp; i * primes[j] &lt;= n; j++) {
+14              not_prime[i * primes[j]] = true;
+15              if (i % primes[j] == 0) break;
+16          }
+17      }
+18  }
+19  
+20  int reverse(int x) {
+21      if (x &lt; 100) return (x / 10) + (x % 10) * 10;
+22      if (x &lt; 1000) return (x / 100) + (x / 10 % 10) * 10 + (x % 10) * 100;
+23      return 1;
+24  }
+25  
+26  int main() {
+27      euler_sieve(1000);
+28      for (int i = 0; i &lt; primes_num; i++)
+29          if (primes[i] &gt; 9 &amp;&amp; primes[i] == reverse(primes[i]))
+30              cout &lt;&lt; primes[i] &lt;&lt; '\n';
+31      return 0;
+32  }
+    </code></pre>
+    <button onclick="copyCompl()">点我AC!</button>
+    <br><br><br>
+    <div align="center"><hr><h1><a class="ending" href="#">The Ending</a></h1><hr></div>
   </body>
 </html>
