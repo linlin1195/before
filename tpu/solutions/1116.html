@@ -5,11 +5,17 @@
     <meta charset="UTF-8">
     <title>1116. 素数回文数 题解 | linlin1195.github.io</title>
     <link rel="shortcut icon" href="https://oj.17ac.cn/favicon.ico" type="image/x-icon">
-    <link href="https://fonts.font.im/css?family=Fira+Mono" rel="stylesheet">
+    <link href="https://fonts.font.im/css?family=Ubuntu+Mono" rel="stylesheet"> 
     <link href="https://fonts.font.im/css?family=Great+Vibes" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+    <link rel="stylesheet" href="/css/default.css">
+    <link rel="stylesheet" href="/css/dark.css">
+    <script src="/js/highlight.js"></script>
+    <script src="/js/highlightjs-line-numbers.min.js"></script>
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script>
+      hljs.initHighlightingOnLoad();
+      hljs.initLineNumbersOnLoad();
+    </script>
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
         tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
@@ -62,7 +68,7 @@
     <style>
       * {
         background: #2b2b2b;
-	color: #aab4c8
+        color: #aab4c8
       }
 
       body {
@@ -70,17 +76,31 @@
       }
 
       body {
-        font-family: 'Consolas', monospace;
+        font-family: 'Ubuntu Mono', monospace;
       }
 
       code {
-        font-family: 'Fira Mono', monospace;
+        font-family: 'Ubuntu Mono', monospace;
+      }
+
+      .hljs-ln-numbers {
+        text-align: center;
+        color: #ccc;
+        border-right: 1px solid #999;
+        vertical-align: top;
+        padding-right: 5px;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
       }
 
       .ending {
         background: linear-gradient(120deg, #66ccff 0%, #f8f8ff 100%);
-	-webkit-background-clip: text;
-	color: transparent;
+        -webkit-background-clip: text;
+        color: transparent;
         font-family: 'Great Vibes', cursive;
       }
     </style>
@@ -106,7 +126,7 @@
     <hr>
     <h4>如何判素?</h4>
     <p>有一个最暴力的想法，从2一直枚举到<code>x-1</code>，判断这个数是否是<code>x</code>的因子。如果是，那么<code>x</code>不是质数。如果枚举完了都没有<code>return</code>出去，那么可以确定<code>x</code>没有其他因子，是素数。另外还有一个需要注意的点，当<code>x</code>小于2时，<code>x</code>也不为质数。示范代码如下: </p>
-    <pre><code lang="cpp"> 1  bool is_prime(int x) {
+    <pre><code class="cpp"> 1  bool is_prime(int x) {
  2      if (x &lt; 2) return false;
  3      for (int i = 2; i &lt; x; i++)
  4          if (x % i == 0)
@@ -118,7 +138,7 @@
     <p>时间复杂度是 $O(n)$ 的</p>
     <p><strong>能不能更快?</strong></p>
     <p>答案是肯定的。素数是因子只有1和本身，如果<code>x</code>不是素数，则还有其他因子，其中的因子，假如为<code>a</code>，<code>b</code>.其中必有一个大于 $\sqrt{x}$ ，一个小于  $\sqrt{x}$ 。所以必有一个小于或等于其平方根的因数，那么验证素数时就只需要枚举2到 $\sqrt{x}$ 就可以了。即一个合数一定含有小于它平方根的质因子。示范代码如下: </p>
-    <pre><code lang="cpp"> 1  bool is_prime(int x) {
+    <pre><code class="cpp"> 1  bool is_prime(int x) {
  2      if (x &lt; 2) return false;
  3      for (int i = 2; i * i &lt;= x; i++)
  4          if (x % i == 0)
@@ -134,7 +154,7 @@
     <p>如何把数字倒序?</p>
     <p>最简单的想法是: 把数字转<code>string</code>然后再<code>reverse</code>。<del>(甩锅给STL</del></p>
     <p>接下来又是欢乐的代码环节了 <del>(STL: ******</del></p>
-    <pre><code lang="cpp"> 1  int reverse(int x) {
+    <pre><code class="cpp"> 1  int reverse(int x) {
  2      string tostr = to_string(x);
  3      reverse(tostr.begin(), tostr.end());
  4      return stoi(tostr);
@@ -144,7 +164,7 @@
     <hr>
     相信有了这些，你应该能A了这道题<del>，祝你们成功[滑稽]</del>
     但还是在此贴出暴力A码:
-    <pre><code lang="cpp"> 1  #include &lt;algorithm&gt;
+    <pre><code class="cpp"> 1  #include &lt;algorithm&gt;
  2  #include &lt;iostream&gt;
  3  #include &lt;string&gt;
  4  
@@ -183,7 +203,7 @@
     <a href="https://blog.csdn.net/GD_ONE/article/details/104660294">获取详细信息</a>
     <br>
     <p>在这里给出示例代码: </p>
-    <pre><code lang="cpp"> 1  void euler_sieve(int n) {
+    <pre><code class="cpp"> 1  void euler_sieve(int n) {
  2      not_prime[0] = not_prime[1] = true;
  3      for (int i = 2; i &lt;= n; i++) {
  4          if (!not_prime[i]) primes[primes_num++] = i;
@@ -206,7 +226,7 @@
     <strong><code>reverse</code>的优化</strong>
     <p>我们知道，传进<code>reverse</code>函数的值在[10, 1000]之间，只可能是[2, 4]位数。</p>
     <p>所以我们可以特判<code>x</code>的位数，分别返回值。</p>
-    <pre><code lang="cpp"> 1  int reverse(int x) {
+    <pre><code class="cpp"> 1  int reverse(int x) {
  2      if (x &lt; 100) return (x / 10) + (x % 10) * 10;
  3      if (x &lt; 1000) return (x / 100) + (x / 10 % 10) * 10 + (x % 10) * 100;
  4      return 1;
@@ -215,7 +235,7 @@
     <button onclick="copyRevTwo()">点我复制!</button>
     <hr>
     <strong>接下来，让我们把所有元素结合到一起!</strong>
-    <pre><code lang="cpp"> 1  #include &lt;iostream&gt;
+    <pre><code class="cpp"> 1  #include &lt;iostream&gt;
  2  
  3  using namespace std;
  4  
