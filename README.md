@@ -1,2 +1,2 @@
 - # linlin1195 的个人博客
-- # [直达网页](https://github.com/linlin1195/linlin1195.github.io/blob/main/index.html)
+- # [直达网页](https://linlin1195.github.io)
