@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <title>linlin1195的小站 | linlin1195.github.io</title>
+    <script>
+      function checkInput() {
+          // 获取<textarea>元素
+          var textarea = document.getElementById('userInput');
+          
+          // 读取<textarea>中的值
+          var text = textarea.value;
+          
+          // 做一些基本的判断
+          if (text === "") {
+              alert("文本框是空的，请输入一些内容！");
+          } else if(text == "==license==\nNTFLI-QB4IG-USZO6-Q6H5Y-UZ4F5\n8XOW9-0AJI5-IZ0R6-830AA-H7VYO\nIC6IG-JUXW9-FDH5X-UY28R-D4VWF\n5NX24-1BDKD-5OYTW-32OR3-0D6ZX\n75Q9R-BO1QB-TQMYE-S50QX-BDX06\n==license=="){
+              alert("激活成功");
+              window.location.href = "/abcde.html";
+          }
+          else{
+              alert("激活失败");
+          }
+      }
+      </script>
+    <link rel="stylesheet"
+          href="/css/style.css">
+    <style>
+      body {
+              padding-bottom: 50px;
+            }
+      
+            .gradient {
+              color: red;
+              height: 120px;
+              background-image: linear-gradient(120deg, #66ccff 0%, #f8f8ff 100%);
+            }
+    </style>
+  </head>
+  <body>
+    <div class="gradient">
+      <h1 align="center"
+          style="padding-top: 1cm">
+        <a style="color: red">请输入 license </a>
+      <h1>
+    </div>
+    <br>
+    <div class="index">
+      <div class="content">
+        <div align="center">
+          <textarea id="userInput" cols="60" rows="20"></textarea>
+        </div>
+        <div align="center">
+          <button style="color:blue" onclick="checkInput()">好了！</button>
+        </div>
+        
+      <p class="footer">&copy;&nbsp;2024-2024&nbsp;<a href="https://www.luogu.com.cn/user/1194403">linyunxiang1111(linlin1195)</a>,
+        <a href="https://www.luogu.com.cn/user/1246468">blue_peace(blue-peace2013)</a>
+      </p>
+    </div>
+  </body>
+</html>
